@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({
 app.use(express.static("public"));
 
 var uriString =
-   process.env.MONGOLAB_URI ||
+   process.env.MONGODB_URI ||
    process.env.MONGOHQ_URL ||
    'mongodb://localhost/jobscraper';
 
