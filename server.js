@@ -27,22 +27,21 @@ app.use(bodyParser.urlencoded({
 // Make public a static dir
 app.use(express.static("public"));
 
-var uriString = process.env.MONGOLAB_URI || 'mongodb://localhost/WebScraper';
+var uriString =
+   process.env.MONGOLAB_URI ||
+   process.env.MONGOHQ_URL ||
+   'mongodb://localhost/jobscraper';
 
 // Database configuration with mongoose
-mongoose.connect(uriString);
+ console.log('attempting to connect to ' + uriString);
+ mongoose.connect(uriString, function (err, res) {
+  if (err) {
+  console.log ('ERROR connecting to: ' + uriString + '. ' + err);
+  } else {
+  console.log ('Success! connected to: ' + uriString);
+  }
+ });
 var db = mongoose.connection;
-
-// Show any mongoose errors
-db.on("error", function(error) {
-  console.log("Mongoose Error: ", error);
-});
-
-// Once logged in to the db through mongoose, log a success message
-db.once("open", function() {
-  console.log("Mongoose connection successful.");
-});
-
 
 // Routes
 // ======
